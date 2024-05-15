@@ -10,13 +10,20 @@ function getRandomSymbol() {
     return symbols[Math.floor(Math.random() * symbols.length)];
 }
 
-function animateReel(reel, duration, finalSymbol) {
+function animateReel(reel, duration) {
     return new Promise((resolve) => {
         let startTime = Date.now();
         let frame = 0;
+
         function updateReel() {
             frame++;
-            reel.textContent = getRandomSymbol();
+            const topSymbol = getRandomSymbol();
+            const middleSymbol = getRandomSymbol();
+            const bottomSymbol = getRandomSymbol();
+
+            reel.querySelector('.top').textContent = topSymbol;
+            reel.querySelector('.middle').textContent = middleSymbol;
+            reel.querySelector('.bottom').textContent = bottomSymbol;
 
             const elapsedTime = Date.now() - startTime;
             const progress = elapsedTime / duration;
@@ -27,36 +34,28 @@ function animateReel(reel, duration, finalSymbol) {
             if (elapsedTime < duration) {
                 setTimeout(updateReel, speed);
             } else {
-                reel.textContent = finalSymbol;
-                resolve();
+                resolve(middleSymbol);
             }
         }
+
         updateReel();
     });
 }
 
 async function spinReels() {
     resultDisplay.textContent = 'Good Luck!';
-    let t = 2000;
-    // Animate each reel for a random duration between 1 and 2 seconds
-    await Promise.all([
-        animateReel(reel1, t),
-        animateReel(reel2, t),
-        animateReel(reel3, t)
+
+    // Animate each reel for a random duration between 1.5 and 2.5 seconds
+    const [finalSymbol1, finalSymbol2, finalSymbol3] = await Promise.all([
+        animateReel(reel1, 1500 + Math.random() * 1000),
+        animateReel(reel2, 1500 + Math.random() * 1000),
+        animateReel(reel3, 1500 + Math.random() * 1000)
     ]);
 
-    // Final symbols after animation
-    const symbol1 = getRandomSymbol();
-    const symbol2 = getRandomSymbol();
-    const symbol3 = getRandomSymbol();
-
-    reel1.textContent = symbol1;
-    reel2.textContent = symbol2;
-    reel3.textContent = symbol3;
-
-    if (symbol1 === symbol2 && symbol2 === symbol3) {
+    // Check the result and update the message accordingly
+    if (finalSymbol1 === finalSymbol2 && finalSymbol2 === finalSymbol3) {
         resultDisplay.textContent = 'Jackpot! 🎉';
-    } else if (symbol1 === symbol2 || symbol2 === symbol3 || symbol1 === symbol3) {
+    } else if (finalSymbol1 === finalSymbol2 || finalSymbol2 === finalSymbol3 || finalSymbol1 === finalSymbol3) {
         resultDisplay.textContent = 'You win! 😊';
     } else {
         resultDisplay.textContent = 'Try again! 😞';
