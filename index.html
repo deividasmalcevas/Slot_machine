@@ -24,6 +24,8 @@
 <div class="container ">
     <div class="justify-content-center d-flex align-items-center flex-column">
         <h1>Slot Machine</h1>
+        <div class="result" id="result">Good Luck!</div>
+        <h3>Your money <span id="user_money">0</span> </h3>
         <div class="slot-machine">
             <div class="reel" id="reel1">
                 <div class="emoji top">🍒</div>
@@ -42,7 +44,10 @@
             </div>
             <button id="spinButton"> </button>
         </div>
-        <div class="result" id="result">Good Luck!</div>
+        <div>
+            <label for="bidAmount">Enter Bid Amount:</label>
+            <input type="number" id="bidAmount" min="100" step="10" value="100">
+        </div>
     </div>
 </div>
 </body>
