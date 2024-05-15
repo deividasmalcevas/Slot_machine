@@ -1,0 +1,8 @@
+body{
+    background: url("https://static.vecteezy.com/system/resources/previews/024/232/274/non_2x/green-casino-poker-table-texture-game-background-free-vector.jpg") center;
+    background-size: cover;
+    color: white;
+}
+.container{
+    background: rgba(0, 0, 0, 0.78) !important;
+}
